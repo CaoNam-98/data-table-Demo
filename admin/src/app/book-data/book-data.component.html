@@ -1,0 +1,254 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-1-12">
+      <div class="container" *ngIf="listBook && listBook.length > 0">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" [ngClass]="['table__book']">
+            <table class="table">
+              <thead>
+                <tr class="table__list-title">
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Rendering engine</span>
+                    <div [ngSwitch]="iconSortRender">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'rendering')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'rendering')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'rendering')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Browser</span>
+                    <div [ngSwitch]="iconSortBrowser">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'browser')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'browser')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'browser')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Platform(s)</span>
+                    <div [ngSwitch]="iconSortPlatform">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'platform')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'platform')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'platform')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Engine version</span>
+                    <div [ngSwitch]="iconSortVersion">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'version')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'version')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'version')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>CSS grade</span>
+                    <div [ngSwitch]="iconSortGrade">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'grade')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'grade')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'grade')"></i>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of listBookFollowPage | sortNumber : sortValue : sortName; let i = index">
+                  <td [ngClass]="['table__book-detail']">{{ item.rendering }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.browser }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.platform }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.version }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.grade }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-1-6">
+            <span>Showing
+              {{ startNumber }} to {{ endNumber }} of {{listBook.length}} entries</span>
+          </div>
+          <div
+            class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-1-6"
+            [ngStyle]="{
+              'display': 'flex',
+              'justify-content': 'end'
+            }"
+          >
+            <app-pagination
+              [listBook]="listBook"
+              (onHandlePagination)="onGetListItemFollowPage($event)"
+              (onHandleCurrentPage)="onGetCurrentPage($event)"
+            ></app-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-1-12">
+      <div class="container" *ngIf="countItemSelected && countItemSelected.length > 0">
+        <div class="row table__search-select">
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+            <div class="table__select">
+              <span>Show</span>
+              <select class="form-select" aria-label="Default select example" (change)="onChangeShowItem($event)">
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span>entries</span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 table__search">
+            <span>Search: </span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder=""
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              [(ngModel)]="filterName">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" [ngClass]="['table__book']">
+            <table class="table">
+              <thead>
+                <tr class="table__list-title">
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Rendering engine</span>
+                    <div [ngSwitch]="iconSortRender">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'rendering')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'rendering')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'rendering')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Browser</span>
+                    <div [ngSwitch]="iconSortBrowser">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'browser')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'browser')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'browser')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Platform(s)</span>
+                    <div [ngSwitch]="iconSortPlatform">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'platform')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'platform')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'platform')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>Engine version</span>
+                    <div [ngSwitch]="iconSortVersion">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'version')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'version')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'version')"></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th scope="col" [ngClass]="['table__book-detail']">
+                    <span>CSS grade</span>
+                    <div [ngSwitch]="iconSortGrade">
+                      <div *ngSwitchCase="1">
+                        <i class="fa-solid fa-arrow-up-wide-short" (click)="onHandleSort(1, 'grade')"></i>
+                      </div>
+                      <div *ngSwitchCase="-1">
+                        <i class="fa-solid fa-arrow-down-wide-short" (click)="onHandleSort(-1, 'grade')"></i>
+                      </div>
+                      <div *ngSwitchDefault>
+                        <i class="fa-solid fa-sort" (click)="onHandleSort(1, 'grade')"></i>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of countItemSelected | sortNumber : sortValue : sortName | filter : filterName; let i = index">
+                  <td [ngClass]="['table__book-detail']">{{ item.rendering }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.browser }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.platform }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.version }}</td>
+                  <td [ngClass]="['table__book-detail']">{{ item.grade }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-1-6">
+            <span>Showing 0 to 10 of {{listBook.length}} entries</span>
+          </div>
+          <div
+            class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-1-6"
+            [ngStyle]="{
+              'display': 'flex',
+              'justify-content': 'end'
+            }"
+          >
+            <app-pagination-bottom
+              [listBook]="listBook"
+              [countItemSelected]="countItemSelected"
+              (onHandlePagination)="onGetListItemFollowPageBottom($event)"
+            ></app-pagination-bottom>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

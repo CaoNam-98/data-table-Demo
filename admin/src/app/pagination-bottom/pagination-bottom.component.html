@@ -1,0 +1,32 @@
+
+  <nav aria-label="...">
+    <ul class="pagination">
+      <li
+        class="page-item"
+        [ngClass]="{
+          'disabled': currentPage === 1
+        }"
+        (click)="onHandlePage(currentPage - 1)"
+      >
+        <a class="page-link">Previous</a>
+      </li>
+      <li
+        class="page-item"
+        [ngClass]="{
+          'active': currentPage === i+1
+        }"
+        *ngFor="let item of totalPage; let i=index"
+        (click)="onHandlePage(i+1)"
+
+      >
+        <a class="page-link">{{ i+1 }}</a>
+      </li>
+      <li
+        class="page-item"
+        [ngClass]="setClasses()"
+        (click)="onHandlePage(currentPage + 1)"
+      >
+        <a class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>

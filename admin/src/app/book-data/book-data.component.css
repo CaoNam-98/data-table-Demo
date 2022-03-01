@@ -1,0 +1,38 @@
+.row {
+  margin-top: 30px !important;
+}
+
+.table__book {
+  padding: 0px;
+  border: 1px solid #d3d2d2;
+}
+
+.table__book-detail {
+  border-right: 1px solid #d3d2d2;
+}
+
+.table__book-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table__select,
+.table__search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table__select > span {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.table__search > input {
+  margin-left: 6px;
+}
+
+.table__search-select {
+  display: flex;
+  justify-content: space-between;
+}
